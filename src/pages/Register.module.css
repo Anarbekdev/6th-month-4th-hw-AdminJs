@@ -1,0 +1,32 @@
+.formWrapper {
+    max-width: 600px;
+    margin: 50px auto; 
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formItem {
+    margin-bottom: 16px;
+  }
+  
+  .submitButton {
+    width: 100%;
+  }
+  
+  .switchText {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  
+  .switchText a {
+    color: #1890ff;
+    text-decoration: none;
+  }
+  
+  .switchText a:hover {
+    text-decoration: underline;
+  }
+  
