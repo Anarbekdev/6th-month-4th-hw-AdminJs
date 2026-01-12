@@ -50,7 +50,7 @@ export const Login = () => {
             loading={isLoading}
             className={styles.submitButton}
           >
-            Submit
+            Login
           </Button>
         </Form.Item>
         <p className={styles.switchText}>

@@ -9,5 +9,9 @@ body {
   min-height: 100vh;
   background-color: aqua;
   background: linear-gradient(45deg, #ff0000, #0000ff);
+  background: url('./images/nature\ for\ login\ sing\ up.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
