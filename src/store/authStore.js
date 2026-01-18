@@ -9,6 +9,12 @@ export const useAuthStore = create((set) => ({
     isLoading: false,
     error: null,
 
+    profile: null,
+    getProfile: async() => {
+        const res = await api.get("/profile")
+        set({profile: res.data})    
+    },
+
     login: async (data) => {
         try{
              set({isLoading:true, error: null})
@@ -16,15 +22,16 @@ export const useAuthStore = create((set) => ({
 
              set({
                 user: res.data.user,
-                accesToken: res.data.token.accessToken,
+                accessToken: res.data.token.accessToken,
                 refreshToken: res.data.token.refreshToken,
                 isAuth: true,
              })
              
-             console.log(res);
+        
              
-             localStorage.setItem('accesTocen', res.data.token.accessToken)
+             localStorage.setItem('accessToken', res.data.token.accessToken)
              localStorage.setItem('refreshToken', res.data.token.refreshToken)
+             console.log(localStorage.getItem('accessToken'));
 
         } catch (err) {
             set({error: err.response?.data?.message || "Login Failed"})
@@ -42,5 +49,21 @@ export const useAuthStore = create((set) => ({
         } finally {
             set({isLoading: false})
         }
-    }
+    },
+
+
+    logout: () => {
+        set({
+          user: null,
+          accessToken: null,
+          refreshToken: null,
+          isAuth: false,
+          error: null,
+        });
+      
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+      
+      }
+        
 }))
