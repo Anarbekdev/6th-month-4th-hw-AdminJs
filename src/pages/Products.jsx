@@ -17,7 +17,7 @@ export const Products = () => {
 
   useEffect(() => {
     getProducts();
-    getCategories(); // получаем список категорий
+    getCategories(); 
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
@@ -71,7 +71,7 @@ export const Products = () => {
                 type="primary"
                 block
                 onClick={(e) => {
-                  e.stopPropagation(); // чтобы не открывалась детальная
+                  e.stopPropagation();
                   addToCart(prod.id);
                 }}
               >
