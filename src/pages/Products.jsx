@@ -1,36 +1,86 @@
-import { Card,Flex, Button } from "antd"
-import { useProductStore } from "../store/productStore"
-import { useEffect } from "react"
-import { useCartStore } from "../store/cartStore"
+import { Card, Row, Col, Button, Typography, Select } from "antd";
+import { useProductStore } from "../store/productStore";
+import { useCartStore } from "../store/cartStore";
+import { useCategoriesStore } from "../store/categoryStore";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const { Title, Text } = Typography;
 
 export const Products = () => {
-    const { isLoading, products, getProducts } = useProductStore()
-    const { addToCart } = useCartStore()
+  const { isLoading, products, getProducts } = useProductStore();
+  const { categories, getCategories } = useCategoriesStore();
+  const { addToCart } = useCartStore();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        getProducts()
-    },[])
-    console.log(products);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-    if(isLoading) return <p>Loading...</p>
+  useEffect(() => {
+    getProducts();
+    getCategories(); // получаем список категорий
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+
+  const filteredProducts = selectedCategory
+    ? products.filter((p) => p.categories?.id === selectedCategory)
+    : products;
+
   return (
-    <>
-        <h2>
-            Products
-        </h2>
-        <Flex wrap gap="middle">
-            {products.map((prod) => (
-                <Card title={prod.title}
-                    key={prod.id}
-                >
-                    <p>
-                        {prod.description}
-                    </p>
-                    <p> <b>Category:</b>{prod.categories?.title}</p>
-                    <Button variant="primary" onClick={() => addToCart(prod.id)}>Add To Cart</Button>
-                </Card>
-            ))}
-        </Flex>
-    </>
-  )
-}
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px" }}>
+      <Title level={2} style={{ marginBottom: 20 }}>Products</Title>
+
+      <Select
+        placeholder="Filter by category"
+        allowClear
+        style={{ width: 300, marginBottom: 20 }}
+        onChange={setSelectedCategory}
+        options={categories.map((cat) => ({
+          label: cat.title,
+          value: cat.id,
+        }))}
+      />
+
+      <Row gutter={[16, 16]}>
+        {filteredProducts.map((prod) => (
+          <Col key={prod.id} xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              onClick={() => navigate(`/products/${prod.id}`)}
+              cover={
+                <img
+                  alt={prod.title}
+                  src={prod.image || "https://via.placeholder.com/300x200"}
+                  style={{ objectFit: "cover", height: 200 }}
+                />
+              }
+              bodyStyle={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: 180,
+              }}
+            >
+              <div>
+                <Text strong>{prod.title}</Text>
+                <br />
+                <Text type="secondary">{prod.categories?.title}</Text>
+              </div>
+
+              <Button
+                type="primary"
+                block
+                onClick={(e) => {
+                  e.stopPropagation(); // чтобы не открывалась детальная
+                  addToCart(prod.id);
+                }}
+              >
+                Add To Cart
+              </Button>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
+  );
+};

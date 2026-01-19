@@ -13,8 +13,8 @@ export const useCategoriesStore = create ((set) => ({
 
     createCategory: async (title) => {
         const res = api.post('/categories/create', {title})
-        set((state) => {
-            categories: [...categories, res.data]
-        })
+        set((state) => ({
+            categories: [...state.categories, res.data]
+        }))
     }
 }))

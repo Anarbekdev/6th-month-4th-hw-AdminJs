@@ -4,6 +4,8 @@ import { Login } from "../pages/Login";
 import { useAuthStore } from "../store/authStore";
 import { Products } from "../pages/Products";
 import { Profile } from "../profile/Profile"
+import { Cart } from "../pages/Cart";
+import { ProductDetail } from "../pages/productDetail";
 
 export const AppRouter = () => {
   const { isAuth } = useAuthStore();
@@ -13,6 +15,8 @@ export const AppRouter = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile/>}/>
       <Route path="/products" element={<Products/>}/> 
+      <Route path="/products/:id" element={<ProductDetail/>}/>
+      <Route path="/cart" element={<Cart/>} />
       <Route
         path="/"
         element={
